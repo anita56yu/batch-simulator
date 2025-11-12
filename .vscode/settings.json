@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "job_storage.h": "c",
+        "stdbool.h": "c",
+        "user_interface.h": "c",
+        "evaluation.h": "c",
+        "time.h": "c",
+        "execute.h": "c",
+        "evaluate.h": "c"
+    }
+}
