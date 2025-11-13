@@ -43,7 +43,7 @@ void list_jobs(struct JobStorage* job_storage);
 
 void quit_listing(struct JobStorage* job_storage);
 
-void print_reschedule(struct JobStorage* job_storage);
+void print_reschedule(struct JobStorage* job_storage, double reschedule_time);
 
 void print_submit_job(struct JobStorage* job_storage, struct Job* job);
 

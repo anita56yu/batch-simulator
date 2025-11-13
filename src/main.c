@@ -43,8 +43,11 @@ void *scheduler(void *t)
         }
         else if(ptr_input->input_type==CHANGE_POLICY){
             pthread_mutex_lock(&queue_mutex);
+            clock_t start = clock();
             reschedule(ptr_job_storage, ptr_input->policy);
-            print_reschedule(ptr_job_storage);
+            clock_t end = clock();
+            double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
+            print_reschedule(ptr_job_storage, time_spent);
             pthread_mutex_unlock(&queue_mutex);
         }
         else if(ptr_input->input_type==LIST){
@@ -71,17 +74,19 @@ void *scheduler(void *t)
                     pthread_cond_signal(&queue_empty_cv);
                 }
                 pthread_mutex_unlock(&queue_mutex);
-                run_for_time(ptr_benchmark->arrival_rate);
+                // run_for_time(ptr_benchmark->arrival_rate);
             }
-            free(ptr_benchmark);
-            pthread_mutex_lock(&benchmark_mutex);
-            if(num_benchmark_job>0){
-                pthread_cond_wait(&benchmark_done_cv, &benchmark_mutex);
-            }
-            pthread_mutex_unlock(&benchmark_mutex);
             pthread_mutex_lock(&queue_mutex);
-            quit_listing(ptr_job_storage);
+
+            clock_t start = clock();
+            reschedule(ptr_job_storage, ptr_benchmark->new_policy);
+            clock_t end = clock();
+            double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
+            print_reschedule(ptr_job_storage, time_spent);
             pthread_mutex_unlock(&queue_mutex);
+
+            free(ptr_benchmark);
+            printf("%d benchmark jobs submitted successfully.\n", num_benchmark_job);
         }
         else if(ptr_input->input_type==QUIT){
             break;

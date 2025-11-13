@@ -1,0 +1,18 @@
+O(n^2): fcfs -> sjf
+test batch_job fcfs 10000 3 3 2 10 sjf
+Scheduling policy is switched to SJF. All the 9999 waiting jobs have been rescheduled.
+Time to reschedule: 0.154861 seconds
+10000 benchmark jobs submitted successfully.
+test batch_job fcfs 100000 3 3 2 10 sjf
+Scheduling policy is switched to SJF. All the 100000 waiting jobs have been rescheduled.
+Time to reschedule: 13.418644 seconds
+99999 benchmark jobs submitted successfully.
+
+O(n^2): fcfs -> priority
+test batch_job fcfs 10000 3 3 2 10 priority
+Scheduling policy is switched to PRIORITY. All the 9999 waiting jobs have been rescheduled.
+Time to reschedule: 0.059649 seconds
+10000 benchmark jobs submitted successfully.
+test batch_job fcfs 100000 3 3 2 10 priority
+Scheduling policy is switched to PRIORITY. All the 99999 waiting jobs have been rescheduled.
+Time to reschedule: 6.017559 seconds

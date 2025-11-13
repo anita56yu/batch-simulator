@@ -8,6 +8,7 @@
 struct Benchmark{
     char name[50];
     int policy;
+    int new_policy;
     int num_of_jobs;
     int arrival_rate;
     int priority_levels;

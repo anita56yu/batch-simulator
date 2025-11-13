@@ -73,8 +73,9 @@ void quit_listing(struct JobStorage* job_storage){
 }
 
 //prints reschedule message
-void print_reschedule(struct JobStorage* job_storage){
+void print_reschedule(struct JobStorage* job_storage, double reschedule_time){
     printf("Scheduling policy is switched to %s. All the %d waiting jobs have been rescheduled.\n", policy_names[job_storage->policy], job_storage->count);
+    printf("Time to reschedule: %.6f seconds\n", reschedule_time);
 }
 
 //prints job information 
@@ -157,6 +158,7 @@ void interface(struct Input* ptr_input){
                 char priority_levels[10];
                 char min_CPU_time[10];
                 char max_CPU_time[10];
+                char new_policy[10];
                 get_input(job_name);
                 get_input(policy);
                 get_input(num_of_jobs);
@@ -164,10 +166,11 @@ void interface(struct Input* ptr_input){
                 get_input(priority_levels);
                 get_input(min_CPU_time);
                 get_input(max_CPU_time);
+                get_input(new_policy);
                 if(strcmp(job_name, "")==0 || strcmp(policy, "")==0
                    || strcmp(num_of_jobs, "")==0 || strcmp(arrival_rate, "")==0
                    || strcmp(priority_levels, "")==0 || strcmp(min_CPU_time, "")==0
-                   || strcmp(max_CPU_time, "")==0){
+                   || strcmp(max_CPU_time, "")==0 || strcmp(new_policy, "")==0){
                     ptr_input->input_type=ERROR;
                     printf("Invalid input: too few arguments.\nType 'help' to find more about AUbatch commands.\n");
                     return;
@@ -180,6 +183,7 @@ void interface(struct Input* ptr_input){
                 ptr_input->benchmark->priority_levels=atoi(priority_levels);
                 ptr_input->benchmark->min_CPU_time=atoi(min_CPU_time);
                 ptr_input->benchmark->max_CPU_time=atoi(max_CPU_time);
+                ptr_input->benchmark->new_policy=get_policy(new_policy);
                 if(ptr_input->benchmark->policy<0){
                     ptr_input->input_type=ERROR;
                     printf("Invalid input: command not supported.\nType 'help' to find more about AUbatch commands.\n");

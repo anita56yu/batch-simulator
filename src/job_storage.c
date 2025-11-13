@@ -93,6 +93,8 @@ void reschedule(struct JobStorage* job_storage, int policy){
    job_storage->policy = policy;
    struct Job* old_head = job_storage->queue_head;
    job_storage->queue_head=NULL;
+   job_storage->total_submitted-=job_storage->count;
+   job_storage->count=0;
    while(old_head!=NULL){
       struct Job* next = old_head->next_job;
       old_head->next_job=NULL;
