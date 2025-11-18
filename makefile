@@ -1,6 +1,13 @@
 .PHONY: clean dirs test
 
-all: dirs micro_benchmark normal_job job_storage.o execute.o evaluate.o user_interface.o main
+all: dirs micro_benchmark normal_job job_storage.o execute.o evaluate.o user_interface.o heap.o main
+
+test: src/heap.h tests/test_heap.c
+	gcc -o tests/test_heap src/heap.c tests/test_heap.c
+	./tests/test_heap
+
+heap.o: src/heap.h src/heap.c
+	gcc -o bin/heap.o -c src/heap.c
 
 job_storage.o: src/job_storage.h src/job_storage.c
 	gcc -o bin/job_storage.o -c src/job_storage.c
@@ -20,8 +27,8 @@ micro_benchmark: src/micro_benchmark.c
 normal_job: src/normal_job.c 
 	gcc -o normal_job  src/normal_job.c
 
-main: src/main.c bin/job_storage.o bin/execute.o bin/evaluate.o bin/user_interface.o
-	gcc -o aubatch bin/job_storage.o bin/execute.o bin/evaluate.o bin/user_interface.o src/main.c
+main: src/main.c bin/job_storage.o bin/execute.o bin/evaluate.o bin/user_interface.o bin/heap.o
+	gcc -o aubatch bin/job_storage.o bin/execute.o bin/evaluate.o bin/user_interface.o bin/heap.o src/main.c
 	
 clean:
 	rm -rf ./bin

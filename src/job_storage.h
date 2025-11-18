@@ -5,15 +5,19 @@
 #include <string.h>
 #include <stdbool.h>
 #include <time.h>
+#include "heap.h"
 
 struct Job {
    char name[50];
    struct Job* next_job;
+   struct Job* prev_job;
    time_t raw_arrival_time;
    time_t raw_start_time;
    int time;
    int priority;
    bool is_benchmark;
+   int sjf_heap_index;
+   int priority_heap_index;
 }; 
 
 struct JobStorage {
@@ -27,6 +31,8 @@ struct JobStorage {
    time_t raw_waiting_time;
    time_t raw_cpu_time;
    int raw_expected_waiting_time;
+   Heap* sjf_heap;
+   Heap* priority_heap;
 }; 
 
 void setup_job_storage(struct JobStorage* job_storage);

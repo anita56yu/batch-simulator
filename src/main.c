@@ -34,9 +34,10 @@ void *scheduler(void *t)
             time_t rawtime = time ( NULL );
             struct Job* ptr_tmp = malloc(sizeof(struct Job));
             setup_job(ptr_tmp, ptr_input->job_name, rawtime, ptr_input->time, ptr_input->priority, false);
-            int was_not_empty = add_to_queue(ptr_job_storage, ptr_tmp);
+            bool was_empty = add_to_queue(ptr_job_storage, ptr_tmp);
             print_submit_job(ptr_job_storage, ptr_tmp);
-            if(!was_not_empty){
+            if(was_empty){
+                printf("Signaling dispatcher that queue is no longer empty.\n"); fflush(stdout);
                 pthread_cond_signal(&queue_empty_cv);
             }
             pthread_mutex_unlock(&queue_mutex);
@@ -69,8 +70,8 @@ void *scheduler(void *t)
                 struct Job* ptr_tmp=malloc(sizeof(struct Job));
                 generate_job(ptr_benchmark, ptr_tmp);
                 pthread_mutex_lock(&queue_mutex);
-                int was_not_empty = add_to_queue(ptr_job_storage, ptr_tmp);
-                if(!was_not_empty){
+                bool was_empty = add_to_queue(ptr_job_storage, ptr_tmp);
+                if(was_empty){
                     pthread_cond_signal(&queue_empty_cv);
                 }
                 pthread_mutex_unlock(&queue_mutex);

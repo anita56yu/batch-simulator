@@ -2,6 +2,7 @@
 #include <time.h>
 #include "evaluate.h"
 #include "job_storage.h"
+#include <stdio.h>
 
 //generate a job base on the given benchmark information including name, arrival_time, expected_execution_time, priority, is_benchmark
 void generate_job(struct Benchmark* benchmark, struct Job *job){
@@ -18,4 +19,5 @@ void run_for_time(time_t seconds) {
         // Perform any necessary tasks here
         current_time = time(NULL);
     }
+    printf("Ran for %ld seconds.\n", seconds); fflush(stdout);
 }
