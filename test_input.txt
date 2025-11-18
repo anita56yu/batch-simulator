@@ -1,4 +1,0 @@
-test batch_job fcfs 10000 3 3 2 10 sjf
-test batch_job fcfs 100000 3 3 2 10 sjf
-test batch_job fcfs 10000 3 3 2 10 priority
-test batch_job fcfs 100000 3 3 2 10 priority
